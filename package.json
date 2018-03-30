@@ -1,0 +1,17 @@
+{
+    "name": "botfern",
+    "version": "0.1.2",
+    "description": "Fully automated TF2 trading bot advertising on www.backpack.tf",
+    "main": "app.js",
+    "dependencies": {
+      "steam-totp": "^2.0.1",
+      "steam-tradeoffer-manager": "^2.9.3",
+      "steam-user": "^3.25.1",
+      "steamcommunity": "^3.34.1"
+    },
+    "author": {
+      "name": "confern",
+      "url": "https://steamcommunity.com/id/confern/"
+    },
+    "license": "MIT"
+}
