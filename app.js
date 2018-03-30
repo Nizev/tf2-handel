@@ -3,8 +3,8 @@ const SteamTotp = require('steam-totp');
 const SteamCommunity = require('steamcommunity');
 const TradeOfferManager = require('steam-tradeoffer-manager');
 
-const Prices = require('./app/prices.json');
-const config = require('./app/config.json');
+const Prices = require('./prices.json');
+const config = require('./config.json');
 
 const client = new SteamUser();
 const community = new SteamCommunity();
@@ -59,7 +59,7 @@ client.on("friendMessage", function(steamID, message, groupID, callback, ourID) 
         client.getPersonas([steamID], function(personas) {
                     var persona = personas[steamID.getSteamID64()];
                     var name = persona ? persona.player_name : (`['${steamID.getSteamID64()}']`); {
-        client.chatMessage(steamID, `Please specify what you want to do further ${name}. All available commands: shop, trade, donate, owner, group, prices, refund, pricecheck or type help to make me involuntarily resend this message. You can write these commands with and without "!"`);
+        client.chatMessage(steamID, `Please specify what you want to do further ${name}. All available commands: shop, trade, donate, owner, group, prices, refund, price or type help to make me involuntarily resend this message. You can write these commands with and without "!"`);
             }
         });
     }
