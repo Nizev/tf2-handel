@@ -100,44 +100,6 @@ client.on("friendMessage", function(steamID, message, groupID, callback, ourID) 
             client.chatMessage(config.ownerID3, config.ownerMessage +`${steamID.getSteamID64()}` );
         }
     }
-    if (steamID.getSteamID64() === config.ownerID && message.toLowerCase() === "cashout pubg") {
-            manager.getInventoryContents(578080, 2, true, function(err, inventory) {
-                if (err) {
-                    client.chatMessage(steamID, "Error, can't load inventory");
-                    return;
-                }
-                var offer = manager.createOffer(config.ownerID3);
-                offer.addMyItems(inventory);
-                offer.setMessage("Curiosity is the wick in the candle of learning. ~ William Ward");
-                offer.send(function(err, status) {
-                    if (err) {
-                        client.chatMessage(steamID, "There's no items from PUBG in our inventory, or they might be untradeable.");
-                        return;
-                    } else {
-                        client.chatMessage(steamID, "Sending trade offer...");
-                }
-            });
-        });
-    }
-    if (steamID.getSteamID64() === config.ownerID && message.toLowerCase() === "cashout csgo") {
-            manager.getInventoryContents(730, 2, true, function(err, inventory) {
-                if (err) {
-                    client.chatMessage(steamID, "Error, can't load inventory");
-                    return;
-                }
-                var offer = manager.createOffer(config.ownerID3);
-                offer.addMyItems(inventory);
-                offer.setMessage("Curiosity is the wick in the candle of learning. ~ William Ward");
-                offer.send(function(err, status) {
-                    if (err) {
-                        client.chatMessage(steamID, "There's no items from CSGO in our inventory, or they might be untradeable.");
-                        return;
-                    } else {
-                        client.chatMessage(steamID, "Sending trade offer...");
-                }
-            });
-        });
-    }
     if (steamID.getSteamID64() === config.ownerID && message.toLowerCase() === "cashout") {
             manager.getInventoryContents(440, 2, true, function(err, inventory) {
                 if (err) {
