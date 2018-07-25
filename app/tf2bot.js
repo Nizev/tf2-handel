@@ -141,7 +141,6 @@ client.on("friendMessage", function(steamID, message, groupID, callback, ourID) 
     }
 })
 
-// I know, I know
 function toTitleCase(str)
 {
  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
