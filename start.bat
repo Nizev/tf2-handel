@@ -1,4 +1,4 @@
 @echo off
-title tf2bot
-node app
+title tf2-bot
+node index.js
 pause
