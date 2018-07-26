@@ -1,2 +1,2 @@
-# tf2bot
+# tf2-bot
 To be updated.
