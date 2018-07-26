@@ -1,8 +1,8 @@
 {
-    "name": "botfern",
-    "version": "0.1.2",
+    "name": "tf2-bot",
+    "version": "0.0.1",
     "description": "tf2 trading bot",
-    "main": "app.js",
+    "main": "index.js",
     "dependencies": {
       "steam-totp": "^2.0.1",
       "steam-tradeoffer-manager": "^2.9.3",
