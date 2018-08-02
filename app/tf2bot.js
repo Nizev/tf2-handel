@@ -55,7 +55,7 @@ client.on('webSession', (sessionid, cookies) => {
 
 // Messages and commands
 client.on("friendMessage", function(steamID, message, groupID, callback, ourID) {
-    if (["help", "!help"].includes(message.toLowerCase())) {
+    if (["help", "!help", ".help", "/help"].includes(message.toLowerCase())) {
         client.getPersonas([steamID], function(personas) {
                     var persona = personas[steamID.getSteamID64()];
                     var name = persona ? persona.player_name : (`['${steamID.getSteamID64()}']`); {
@@ -66,38 +66,24 @@ client.on("friendMessage", function(steamID, message, groupID, callback, ourID) 
     if (["hi", "hello", "howdy", "sup", "?", "why add?", "why add?"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, "Hello my friend, want to trade? If yes, type help or !help for more information.")
     }
-    if (["prices", "!prices", "!price", "!pricelist", "pricelist", "price"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.prices)
-    }
-    if (["donate", "!donate"].includes(message.toLowerCase())) {
+    if (["donate", "!donate", ".donate", "/donate"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.donate);
     } 
     if (["trade", "!trade", "!tradelink", "!tradurl", "tradelink", "tradeurl"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.trade);
     }
-    if (["owner", "!owner"].includes(message.toLowerCase())) {
+    if (["owner", "!owner", ".owner", "/owner"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.owner);
     }
-    if (["shop", "!shop"].includes(message.toLowerCase())) {
+    if (["shop", "!shop", ".shop", "/shop"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.shop);
     }
-    if (["discord", "!discord"].includes(message.toLowerCase())) {
+    if (["discord", "!discord", ".discord", "/discord"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.discord);
     }
-    if (["group", "!group"].includes(message.toLowerCase())) {
+    if (["group", "!group", ".group", "/group"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.group); {
             community.inviteUserToGroup(steamID, config.groupID);
-        }
-    }
-    if (["refund", "!refund"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.refund);
-    }
-    if (["requirements", "!requirements"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.requirements);
-    }
-    if (["refund confirm", "!refund confirm"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.refundConfirm +`${steamID.getSteamID64()}`); {
-            client.chatMessage(config.ownerID3, config.ownerMessage +`${steamID.getSteamID64()}` );
         }
     }
     if (steamID.getSteamID64() === config.ownerID && message.toLowerCase() === "cashout") {
@@ -139,8 +125,29 @@ client.on("friendMessage", function(steamID, message, groupID, callback, ourID) 
             client.chatMessage(steamID, `We're buying ${toTitleCase(itemName)} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
         }
     }
+    if (message.toLowerCase().startsWith(".price")) { 
+        var itemName = message.substr(7);
+        if (Prices[toTitleCase(itemName)] === undefined) {
+            client.chatMessage(steamID, `Sorry pal, but we didn't find ${toTitleCase(itemName)} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
+        } else {
+            var sellPrice = Prices[toTitleCase(itemName)].sell;
+            var buyPrice = Prices[toTitleCase(itemName)].buy;
+            client.chatMessage(steamID, `We're buying ${toTitleCase(itemName)} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
+        }
+    }
+    if (message.toLowerCase().startsWith("/price")) { 
+        var itemName = message.substr(7);
+        if (Prices[toTitleCase(itemName)] === undefined) {
+            client.chatMessage(steamID, `Sorry pal, but we didn't find ${toTitleCase(itemName)} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
+        } else {
+            var sellPrice = Prices[toTitleCase(itemName)].sell;
+            var buyPrice = Prices[toTitleCase(itemName)].buy;
+            client.chatMessage(steamID, `We're buying ${toTitleCase(itemName)} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
+        }
+    }
 })
 
+// This is going to be deleted tomorrow (03.08.2018)
 function toTitleCase(str)
 {
  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -213,8 +220,8 @@ function processOffer(offer) {
         }    
     }
 
-    console.log(`  Their value: ${Math.floor(theirValue / 9 * 100) / 100} ref`); // <- this works
-    console.log(`  They want: ${Math.floor(ourValue / 9 * 100) / 100} ref`); // <- this works
+    console.log(`  Their value: ${Math.floor(theirValue / 9 * 100) / 100} ref`); 
+    console.log(`  They want: ${Math.floor(ourValue / 9 * 100) / 100} ref`); 
 
     // If our value is less, or equal to the item(s), listed in prices.json, then accept, decline if escrow.
     if (ourValue <= theirValue) {
