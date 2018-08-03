@@ -68,17 +68,19 @@ client.on("friendMessage", function(steamID, message, callback, offer) {
     if (["donate", "!donate", ".donate", "/donate"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.message.donate);
     } 
-    if (["trade", "!trade", "!tradelink", "!tradurl", "tradelink", "tradeurl"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.message.trade);
+    if (["trade", "!trade", "!tradelink", "!tradurl", "tradelink", "tradeurl", "/trade", ".trade"].includes(message.toLowerCase())) {
+        client.chatMessage(steamID, config.message.trade + config.bot.tradeURL);
     }
     if (["owner", "!owner", ".owner", "/owner"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.message.owner);
+        client.chatMessage(steamID, config.message.owner + "https://steamcommunity.com/id/"+config.owner.ID64);
+        client.chatMessage(steamID, `However, I'm created and maintained by https://steamcommunity.com/id/confern`);
     }
-    if (["shop", "!shop", ".shop", "/shop"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.message.shop);
+    if (["classifieds", "!classifieds", ".classifieds", "/classifieds"].includes(message.toLowerCase())) {
+        client.chatMessage(steamID, config.message.classifieds + "http://backpack.tf/profiles/"+config.bot.ID64);
     }
     if (["discord", "!discord", ".discord", "/discord"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.message.discord);
+        client.chatMessage(steamID, `And here's confern's Discord https://discord.gg/ZW8T6mH`);
     }
     if (["group", "!group", ".group", "/group"].includes(message.toLowerCase())) {
         client.chatMessage(steamID, config.message.group); {
@@ -151,17 +153,7 @@ function accept(offer, steamID, message) {
         if(err) console.log(err);
         community.checkConfirmations(); {
             console.log("  Trying to accept incoming offer"); {
-                client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.success);
-                if(config.optional.leaveComment != false) {
-                    if (offer.partner.getSteam3RenderedID() == config.owner.ID3) {
-                        console.log(`  Offer partner is owner, not leaving comment`)
-                        return;
-                    } else { 
-                        if(config.optional.comment) {
-                            community.postUserComment(offer.partner.getSteam3RenderedID(), config.optional.comment);
-                        }
-                    }
-                }
+                client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.accept);
             }
         }
     });
@@ -172,7 +164,7 @@ function decline(offer, steamID, message) {
     offer.decline((err) => {
         if(err) console.log(err);
         console.log("  Trying to accept incoming offer"); {
-            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.decline);
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.decline);
             client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
         }
     });
@@ -182,7 +174,7 @@ function decline(offer, steamID, message) {
 function escrow(offer, steamID, message) {
     offer.decline((err) => {
         console.log("  Trying to decline offer sent by Escrow user"); {
-            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.escrow);
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.escrow);
             client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
         }
     });
@@ -249,7 +241,48 @@ function process(offer) {
 
 client.setOption("promptSteamGuardCode", false);
 
-// If we get a new offer, then it will process the offer.
 manager.on('newOffer', (offer) => {
     process(offer);
 });
+
+manager.on('receivedOfferChanged', (offer, oldState) => {
+    setTimeout(() => {
+        if(offer.state === TradeOfferManager.ETradeOfferState.Accepted) {
+            console.log(`   Incoming offer went through successfully.`);
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.optional.offerChanged.accept);
+            if(config.optional.leaveComment != false) {
+                if (offer.partner.getSteam3RenderedID() == config.owner.ID3) {
+                    console.log(`  Offer partner is owner, not leaving comment`)
+                    return;
+                } else { 
+                    if(config.optional.comment) {
+                        community.postUserComment(offer.partner.getSteam3RenderedID(), config.optional.comment);
+                    }
+                }
+            }
+        }
+        if(offer.state === TradeOfferManager.ETradeOfferState.Declined) {
+            console.log(`   You declined your incoming offer.`);
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.decline)
+        }
+        if(offer.state === TradeOfferManager.ETradeOfferState.Canceled) {
+            console.log(`   Incoming offer was canceled by sender.`);
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.canceled);
+        }
+        if(offer.state === TradeOfferManager.ETradeOfferState.Invalid) {
+            console.log(`   Incoming offer is now invalid.`);
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.invalid);
+        }
+        if(offer.state === TradeOfferManager.ETradeOfferState.InvalidItems) {
+            console.log(`   Incoming offer now contains invalid items.`);
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.invalidItems);
+        }
+        if(offer.state === TradeOfferManager.ETradeOfferState.Expired) {
+            console.log(`   Incoming offer expired.`);
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.expired);
+        }
+        if(offer.state === TradeOfferManager.ETradeOfferState.InEscrow) {
+            console.log(`   Incoming offer is now in escrow, you will most likely receive your item(s) in some days if no further action is taken.`);
+        }
+    }, 1000)
+})
