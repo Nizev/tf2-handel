@@ -215,7 +215,6 @@ function processOffer(offer) {
     console.log(`  Their value: ${Math.floor(theirValue / 9 * 100) / 100} ref`); 
     console.log(`  They want: ${Math.floor(ourValue / 9 * 100) / 100} ref`); 
 
-    // If our value is less, or equal to the item(s), listed in prices.json, then accept, decline if escrow.
     if (ourValue <= theirValue) {
         offer.getUserDetails(function(err, them) {
             if (err) {
@@ -223,11 +222,15 @@ function processOffer(offer) {
             }
             if (them.escrowDays > 0) {
                 escrowOffer(offer);
+            } 
+            if(offer.itemsToGive === 0 && offer.itemsToGive < 0) {
+                offer.accept((err) => {
+                    if(err) console.log(err);
+                    console.log(`   Trying to accept incoming donation.`);
+                    client.chatMessage(offer.partner.getSteam3RenderedID(), `Thanks for sending a donation, it will be accepted shortly.`)
+                })
             } else {
-                acceptOffer(offer); {
-                    client.chatMessage(config.ownerID3, `A new trade was just accepted, trade offer sent by: ${offer.partner.getSteamID64()}`);
-                    client.chatMessage(config.ownerID3, `We made: ${Math.floor((theirValue - ourValue) / 9 * 100 ) / 100} ref on this trade.`);
-                }         
+                acceptOffer(offer); 
             }
         });
     } else {
