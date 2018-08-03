@@ -1,7 +1,7 @@
+const TradeOfferManager = require('steam-tradeoffer-manager');
+const SteamCommunity = require('steamcommunity');
 const SteamUser = require('steam-user');
 const SteamTotp = require('steam-totp');
-const SteamCommunity = require('steamcommunity');
-const TradeOfferManager = require('steam-tradeoffer-manager');
 
 const Prices = require('./prices.json');
 const config = require('./config.json');
@@ -146,7 +146,7 @@ client.on("friendMessage", function(steamID, message, callback, offer) {
     }
 })
 
-function acceptOffer(offer, steamID, message) {
+function accept(offer, steamID, message) {
     offer.accept((err) => {
         community.checkConfirmations(); {
             console.log("  We accepted the offer"); {
@@ -163,7 +163,7 @@ function acceptOffer(offer, steamID, message) {
 }
 
 // This function will decline offers.
-function declineOffer(offer, steamID, message) {
+function decline(offer, steamID, message) {
     offer.decline((err) => {
         console.log("  We declined the offer"); {
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.decline);
@@ -173,7 +173,7 @@ function declineOffer(offer, steamID, message) {
 }
 
 // Escrow offer, decline
-function escrowOffer(offer, steamID, message) {
+function escrow(offer, steamID, message) {
     offer.decline((err) => {
         console.log("  We declined the offer sent by an Escrow user"); {
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.escrow);
@@ -183,7 +183,7 @@ function escrowOffer(offer, steamID, message) {
 }
 
 // This function process the trade offer
-function processOffer(offer) {
+function process(offer) {
     var ourItems = offer.itemsToGive;
     var theirItems = offer.itemsToReceive;
     let ourValue = 0;
@@ -194,7 +194,7 @@ function processOffer(offer) {
 
     client.setPersona(SteamUser.Steam.EPersonaState.Busy);
     if (offer.isGlitched() || offer.state === 11) {
-        declineOffer(offer);
+        decline(offer);
     } else {
         for (var i in ourItems) {
             var item = ourItems[i].market_name;
@@ -221,7 +221,7 @@ function processOffer(offer) {
                 throw err;
             }
             if (them.escrowDays > 0) {
-                escrowOffer(offer);
+                escrow(offer);
             } 
             if(offer.itemsToGive === 0 && offer.itemsToGive < 0) {
                 offer.accept((err) => {
@@ -230,11 +230,11 @@ function processOffer(offer) {
                     client.chatMessage(offer.partner.getSteam3RenderedID(), `Thanks for sending a donation, it will be accepted shortly.`)
                 })
             } else {
-                acceptOffer(offer); 
+                accept(offer); 
             }
         });
     } else {
-        declineOffer(offer);
+        decline(offer);
     }
 }
 
@@ -242,5 +242,5 @@ client.setOption("promptSteamGuardCode", false);
 
 // If we get a new offer, then it will process the offer.
 manager.on('newOffer', (offer) => {
-    processOffer(offer);
+    process(offer);
 });
