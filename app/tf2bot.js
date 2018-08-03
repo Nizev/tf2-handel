@@ -53,7 +53,6 @@ client.on('webSession', (sessionid, cookies) => {
     community.startConfirmationChecker(10000, config.identitySecret);
 });
 
-// Messages and commands
 client.on("friendMessage", function(steamID, message, groupID, callback, ourID) {
     if (["help", "!help", ".help", "/help"].includes(message.toLowerCase())) {
         client.getPersonas([steamID], function(personas) {
@@ -107,53 +106,46 @@ client.on("friendMessage", function(steamID, message, groupID, callback, ourID) 
     }
     if (message.toLowerCase().startsWith("price")) { 
         var itemName = message.substr(6); 
-        if (Prices[toTitleCase(itemName)] === undefined) {
-            client.chatMessage(steamID, `Sorry pal, but we didn't find ${toTitleCase(itemName)} in our database, make sure you typed the item correctly, or else we ain't buying it.`)
+        if (Prices[itemName] === undefined) {
+            client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`)
         } else {
-            var sellPrice = Prices[toTitleCase(itemName)].sell;
-            var buyPrice = Prices[toTitleCase(itemName)].buy;
-            client.chatMessage(steamID, `We're buying ${toTitleCase(itemName)} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
+            var sellPrice = Prices[itemName].sell;
+            var buyPrice = Prices[itemName].buy;
+            client.chatMessage(steamID, `We're buying ${itemName} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
         }
     }
     if (message.toLowerCase().startsWith("!price")) { 
         var itemName = message.substr(7);
-        if (Prices[toTitleCase(itemName)] === undefined) {
-            client.chatMessage(steamID, `Sorry pal, but we didn't find ${toTitleCase(itemName)} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
+        if (Prices[itemName] === undefined) {
+            client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
         } else {
-            var sellPrice = Prices[toTitleCase(itemName)].sell;
-            var buyPrice = Prices[toTitleCase(itemName)].buy;
-            client.chatMessage(steamID, `We're buying ${toTitleCase(itemName)} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
+            var sellPrice = Prices[itemName].sell;
+            var buyPrice = Prices[itemName].buy;
+            client.chatMessage(steamID, `We're buying ${itemName} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
         }
     }
     if (message.toLowerCase().startsWith(".price")) { 
         var itemName = message.substr(7);
-        if (Prices[toTitleCase(itemName)] === undefined) {
-            client.chatMessage(steamID, `Sorry pal, but we didn't find ${toTitleCase(itemName)} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
+        if (itemName] === undefined) {
+            client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
         } else {
-            var sellPrice = Prices[toTitleCase(itemName)].sell;
-            var buyPrice = Prices[toTitleCase(itemName)].buy;
-            client.chatMessage(steamID, `We're buying ${toTitleCase(itemName)} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
+            var sellPrice = Prices[itemName].sell;
+            var buyPrice = Prices[itemName].buy;
+            client.chatMessage(steamID, `We're buying ${itemName} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
         }
     }
     if (message.toLowerCase().startsWith("/price")) { 
         var itemName = message.substr(7);
-        if (Prices[toTitleCase(itemName)] === undefined) {
-            client.chatMessage(steamID, `Sorry pal, but we didn't find ${toTitleCase(itemName)} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
+        if (Prices[itemName] === undefined) {
+            client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
         } else {
-            var sellPrice = Prices[toTitleCase(itemName)].sell;
-            var buyPrice = Prices[toTitleCase(itemName)].buy;
-            client.chatMessage(steamID, `We're buying ${toTitleCase(itemName)} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
+            var sellPrice = Prices[itemName].sell;
+            var buyPrice = Prices[itemName].buy;
+            client.chatMessage(steamID, `We're buying ${itemName} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
         }
     }
 })
 
-// This is going to be deleted tomorrow (03.08.2018)
-function toTitleCase(str)
-{
- return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-}
-
-// This function will accept offers.
 function acceptOffer(offer, steamID, message) {
     offer.accept((err) => {
         community.checkConfirmations(); {
