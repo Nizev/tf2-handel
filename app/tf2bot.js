@@ -2,6 +2,7 @@ const TradeOfferManager = require('steam-tradeoffer-manager');
 const SteamCommunity = require('steamcommunity');
 const SteamUser = require('steam-user');
 const SteamTotp = require('steam-totp');
+const colors = require('colors');
 
 const Prices = require('./prices.json');
 const config = require('./config.json');
@@ -163,7 +164,7 @@ function accept(offer, steamID, message) {
 function decline(offer, steamID, message) {
     offer.decline((err) => {
         if(err) console.log(err);
-        console.log("  Trying to accept incoming offer"); {
+        console.log("  Trying to decline incoming offer"); {
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.decline);
             client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
         }
