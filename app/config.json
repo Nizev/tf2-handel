@@ -9,7 +9,7 @@
     },
 
     "owner": {
-        "ID64": "76561198253325712",
+        "ID64": 76561198253325712,
         "ID3": "[U:1:293059984]"
     },
 
@@ -22,8 +22,7 @@
         "game": "TF2-BOT",
         "groupID": 103582791440562795,
         "allowAdmin": false,
-        "leaveComment": true,
-
+        "leaveComment": true
     },
 
     "message": {
