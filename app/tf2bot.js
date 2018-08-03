@@ -15,9 +15,9 @@ const manager = new TradeOfferManager({
 });
 
 const logOnOptions = {
-    accountName: config.account.username,
-    password: config.account.password,
-    twoFactorCode: SteamTotp.generateAuthCode(config.account.sharedSecret)
+    accountName: config.bot.username,
+    password: config.bot.password,
+    twoFactorCode: SteamTotp.generateAuthCode(config.bot.sharedSecret)
 };
 
 client.logOn(logOnOptions);
@@ -43,7 +43,7 @@ client.on('friendRelationship', (steamID, relationship, groupID) => {
 client.on('loggedOn', (details, parental) => {
     client.getPersonas([client.steamID], (personas) => {
         console.log(" Logged in as " + personas[client.steamID].player_name);
-        client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade, config.account.name);
+        client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade, config.bot.name);
         client.gamesPlayed([config.optional.ingame]);
     });
     //440, 5073, 5138, 923, 931, 7, 8, 399480, 399080, 399220 
@@ -52,7 +52,7 @@ client.on('loggedOn', (details, parental) => {
 client.on('webSession', (sessionid, cookies) => {
     manager.setCookies(cookies);
     community.setCookies(cookies);
-    community.startConfirmationChecker(10000, config.account.identitySecret);
+    community.startConfirmationChecker(10000, config.bot.identitySecret);
 });
 
 client.on("friendMessage", function(steamID, message, callback, offer) {
@@ -175,6 +175,7 @@ function decline(offer, steamID, message) {
         if(err) console.log(err);
         console.log("  Trying to accept incoming offer"); {
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.decline);
+            client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
         }
     });
 }
@@ -184,6 +185,7 @@ function escrow(offer, steamID, message) {
     offer.decline((err) => {
         console.log("  Trying to decline offer sent by Escrow user"); {
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.escrow);
+            client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
         }
     });
 }
