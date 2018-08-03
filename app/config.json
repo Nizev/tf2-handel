@@ -5,6 +5,7 @@
         "password": "PASSWORD",
         "sharedSecret": "SHAREDSECRET=",
         "identitySecret": "IDENTITYSECRET=",
+        "ID64": 12312312312312312,
         "tradeURL": "https://steamcommunity.com/tradeoffer/new/?partner=111111111&token=A1AaaAAA"
     },
 
@@ -14,29 +15,41 @@
     },
 
     "admin": {
-        "ID64": "",
-        "ID3": ""
+        "ID64": 12312312312312312,
+        "ID3": "[U:1:123123123]"
     },
 
     "optional": {
         "game": "TF2-BOT",
         "groupID": 103582791440562795,
         "allowAdmin": false,
-        "leaveComment": true
+        "leaveComment": true,
+        "manualDecline": true,
+        "comment": "+REP Thanks for using my trading service!"
     },
 
     "message": {
-        "prices": "TEXT",
-        "donate": "TEXT",
-        "trade": "TEXT",
-        "owner": "",
-        "shop": "TEXT",
-        "group": "Invitation to group sent",
-        "discord": "TEXT",
-        "ownerMessage": "TEXT: ",
-        "success": "TEXT",
-        "decline": "We've declined your offer. Please make sure that you have added the right amount and that the price is right.",
-        "escrow": "We've declined your offer since you have Escrow. Need more information about Escrow? You can find a guide here: https://steamcommunity.com/sharedfiles/filedetails/?id=562532251",
-        "leave": "TEXT"
+        "donate": "Oh you want to donate? How nice of you! You can send a donation by clicking this link: ",
+        "trade": "You can send an offer here: ",
+        "owner": "My owner is ",
+        "group": "Invitation to my group has been sent",
+        "discord": "You can join my Discord here: ",
+        
+        "offerNotChanged": {
+            "donation": "Thanks! I've received your donation and I'm trying to accept it. You will be notified when it has gone through.",
+            "accept": "I've recived your offer, and I'm trying to accept it. You will be notified when it has gone through.",
+            "decline": "I'm trying to decline your offer, make sure that you have added the right amount and that the price is right.",
+            "escrow": "I'm trying to decline your offer. Reason: you have escrow."
+        },
+
+        "offerChanged": {
+            "donation": "Thanks! I've received your donation and I'm trying to accept it.",
+            "accept": "Success! The offer you sent has gone through! Thanks for trading with me!",
+            "decline": "Your offer has now been declined",
+            "invalid": "Error. Your offer is now invalid. Maybe try sending a new one?",
+            "invalidItems": "Error. Your or my items were taken by someone else, try to send a new one.",
+            "expired": "Your offer has expired :(",
+            "canceled": "Wait what? You canceled your offer? C'mon man."
+        }
     }	
 }
