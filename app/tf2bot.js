@@ -53,7 +53,7 @@ client.on('webSession', (sessionid, cookies) => {
     community.startConfirmationChecker(10000, config.identitySecret);
 });
 
-client.on("friendMessage", function(steamID, message, groupID, callback, ourID) {
+client.on("friendMessage", function(steamID, message, callback, offer) {
     if (["help", "!help", ".help", "/help"].includes(message.toLowerCase())) {
         client.getPersonas([steamID], function(personas) {
                     var persona = personas[steamID.getSteamID64()];
@@ -126,7 +126,7 @@ client.on("friendMessage", function(steamID, message, groupID, callback, ourID) 
     }
     if (message.toLowerCase().startsWith(".price")) { 
         var itemName = message.substr(7);
-        if (itemName] === undefined) {
+        if ([itemName] === undefined) {
             client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
         } else {
             var sellPrice = Prices[itemName].sell;
