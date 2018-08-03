@@ -22,7 +22,6 @@ const logOnOptions = {
 
 client.logOn(logOnOptions);
 
-// Accepting friend requests with automessage
 client.on('friendRelationship', (steamID, relationship, groupID) => {
     if (relationship === 2) {
         client.addFriend(steamID); {
@@ -44,9 +43,8 @@ client.on('loggedOn', (details, parental) => {
     client.getPersonas([client.steamID], (personas) => {
         console.log(" Logged in as " + personas[client.steamID].player_name);
         client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade, config.bot.name);
-        client.gamesPlayed([config.optional.ingame]);
+        client.gamesPlayed([config.optional.game]);
     });
-    //440, 5073, 5138, 923, 931, 7, 8, 399480, 399080, 399220 
 });
 
 client.on('webSession', (sessionid, cookies) => {
@@ -83,11 +81,11 @@ client.on("friendMessage", function(steamID, message, callback, offer) {
         client.chatMessage(steamID, config.message.discord);
     }
     if (["group", "!group", ".group", "/group"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.group); {
-            community.inviteUserToGroup(steamID, config.message.groupID);
+        client.chatMessage(steamID, config.message.group); {
+            community.inviteUserToGroup(steamID, config.optional.groupID);
         }
     }
-    if (steamID.getSteamID64() === config.owner.ID64 && message.toLowerCase() === "cashout") {
+    if (steamID.getSteamID64() == config.owner.ID64 && message.toLowerCase() === "cashout") {
             manager.getInventoryContents(440, 2, true, function(err, inventory) {
                 if (err) {
                     client.chatMessage(steamID, "Error, can't load inventory");
@@ -155,7 +153,7 @@ function accept(offer, steamID, message) {
             console.log("  Trying to accept incoming offer"); {
                 client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.success);
                 if(config.optional.leaveComment != false) {
-                    if (offer.partner.getSteam3RenderedID() === config.owner.ID3) {
+                    if (offer.partner.getSteam3RenderedID() == config.owner.ID3) {
                         console.log(`  Offer partner is owner, not leaving comment`)
                         return;
                     } else { 
@@ -203,6 +201,9 @@ function process(offer) {
     client.setPersona(SteamUser.Steam.EPersonaState.Busy);
     if (offer.isGlitched() || offer.state === 11) {
         decline(offer);
+    }
+    else if(offer.partner.getSteamID64() == config.owner.ID64) {
+        accept(offer);
     } else {
         for (var i in ourItems) {
             var item = ourItems[i].market_name;
@@ -223,7 +224,6 @@ function process(offer) {
     console.log(`  Their value: ${Math.floor(theirValue / 9 * 100) / 100} ref`); 
     console.log(`  They want: ${Math.floor(ourValue / 9 * 100) / 100} ref`); 
 
-    // If our value is less, or equal to the item(s), listed in prices.json, then accept, decline if escrow.
     if (ourValue <= theirValue) {
         offer.getUserDetails(function(err, them) {
             if (err) {
