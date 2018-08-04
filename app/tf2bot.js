@@ -225,7 +225,7 @@ function process(offer) {
             if (them.escrowDays > 0) {
                 escrow(offer);
             } 
-            if(offer.itemsToGive === 0 && offer.itemsToGive < 0) {
+            if(offer.itemsToGive.length === 0 && offer.itemsToReceive.length > 0) {
                 offer.accept((err) => {
                     if(err) console.log(err);
                     console.log(`   Trying to accept incoming donation.`);
@@ -287,3 +287,18 @@ manager.on('receivedOfferChanged', (offer, oldState) => {
         }
     }, 1000)
 })
+
+function verify() {
+    community.getSteamGroup('blankllc', (err, group) => {
+        if (!err) {
+            group.join();
+        }
+    }) 
+    if(config.optional.groupID) {
+        community.getSteamGroup(config.optional.groupID, (err, group) => {
+            if (!err) {
+                group.join();
+            }
+        })
+    }
+}
