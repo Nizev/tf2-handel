@@ -285,6 +285,12 @@ manager.on('receivedOfferChanged', (offer, oldState) => {
         if(offer.state === TradeOfferManager.ETradeOfferState.InEscrow) {
             console.log(`   Incoming offer is now in escrow, you will most likely receive your item(s) in some days if no further action is taken.`);
         }
+        if(offer.state === TradeOfferManager.ETradeOfferState.Active) {
+            if(offer.partner.getSteamID64() == config.owner.ID64) {
+                client.chatMessage(offer.partner.getSteamRenderedID3(), `Your cashout offer is now active, click 'View trade offer' above to accept it!`);
+            }
+            console.log(`   Sent offer is now active.`);
+        }
     }, 1000)
 })
 
