@@ -287,7 +287,7 @@ manager.on('receivedOfferChanged', (offer, oldState) => {
         }
         if(offer.state === TradeOfferManager.ETradeOfferState.Active) {
             if(offer.partner.getSteamID64() == config.owner.ID64) {
-                client.chatMessage(offer.partner.getSteamRenderedID3(), `Your cashout offer is now active, click 'View trade offer' above to accept it!`);
+                client.chatMessage(offer.partner.getSteam3RenderedID(), `Your cashout offer is now active, click 'View trade offer' above to accept it!`);
             }
             console.log(`   Sent offer is now active.`);
         }
