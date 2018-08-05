@@ -7,7 +7,8 @@
       "steam-totp": "^2.0.1",
       "steam-tradeoffer-manager": "^2.9.3",
       "steam-user": "^3.25.1",
-      "steamcommunity": "^3.34.1"
+      "steamcommunity": "^3.34.1",
+        "colors": "^1.3.1"
     },
     "author": {
       "name": "confern",
