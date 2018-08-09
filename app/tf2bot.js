@@ -54,6 +54,17 @@ client.on('webSession', (sessionid, cookies) => {
     community.startConfirmationChecker(10000, config.bot.identitySecret);
 });
 
+function hasPrefix(message) {
+    if(message.startsWith('!' || '?' || '/') {
+       msg = message.substr(1, 0);
+       return msg;
+    } else {
+        msg = message;
+        return msg;
+    }
+}
+        
+
 client.on("friendMessage", function(steamID, message, callback, offer) {
     if (["help", "!help", ".help", "/help"].includes(message.toLowerCase())) {
         client.getPersonas([steamID], function(personas) {
