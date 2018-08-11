@@ -24,7 +24,7 @@
 * Checks if item is a Halloween item or not
 * Checks if item is a Craftable Hat or not
 * Multiple additional useful commands
-* Discord support (as seen on [url=https://discord.gg/8cZkREf](this) server)
+* Discord support (as seen on [this](https://discord.gg/8cZkREf) server)
 * Send Steam message to owner after each trade is accepted (with stats)
 * Invite user to group if trade went trough successfully
 * Add user if trade was declined
