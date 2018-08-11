@@ -15,6 +15,8 @@ const manager = new TradeOfferManager({
     language: 'en'
 });
 
+let msg;
+
 const logOnOptions = {
     accountName: config.bot.username,
     password: config.bot.password,
@@ -54,109 +56,65 @@ client.on('webSession', (sessionid, cookies) => {
     community.startConfirmationChecker(10000, config.bot.identitySecret);
 });
 
-function hasPrefix(message) {
-    if(message.startsWith('!' || '?' || '/') {
-       msg = message.substr(1, 0);
-       return msg;
-    } else {
-        msg = message;
-        return msg;
-    }
-}
-        
+const commands = [
+    'help',
+    '\nprice',
+    '\ngroup',
+    '\nowner',
+    '\ndonate',
+    '\ndiscord',
+    '\nclassifieds',
+    '\ncommands' 
+]
 
-client.on("friendMessage", function(steamID, message, callback, offer) {
-    if (["help", "!help", ".help", "/help"].includes(message.toLowerCase())) {
-        client.getPersonas([steamID], function(personas) {
-                    var persona = personas[steamID.getSteamID64()];
-                    var name = persona ? persona.player_name : (`['${steamID.getSteamID64()}']`); {
-        client.chatMessage(steamID, `Please specify what you want to do further ${name}. All available commands: shop, trade, donate, owner, group, prices, refund, price or type help to make me involuntarily resend this message. You can write these commands with and without "!"`);
+client.on("friendMessage", (steamID, message) => {
+    hasPrefix(message);
+    if(msg.toLowerCase().startsWith("price")) { 
+        if (config.options.priceCommand === true || steamID.getSteamID64() === config.owner.ID64) {
+            var item = message.substr(6); 
+            if (Prices[item] === undefined) {
+                client.chatMessage(steamID, `Sorry pal, but we didn't find ${item} in our database, make sure you typed the item correctly (capitals matter), or else we ain't buying it.`)
+            } else {
+                var sell = Prices[item].sell;
+                var buy = Prices[item].buy;
+                client.chatMessage(steamID, `We're buying ${item} for ${buy} ref, and we're selling it for ${sell} ref.`);
+                client.chatMessage(steamID, `Not your item? Try price 'Non-Craftable <item>'`);
             }
-        });
+        } else {
+            client.chatMessage(steamID, `Sorry but this command has been disabled by admin.`);
+            client.chatMessage(steamID, `However you can find our backpack.tf classifieds by typing 'classifieds' or 'listnings.'`);
+        }
     }
-    if (["hi", "hello", "howdy", "sup", "?", "why add?", "why add?"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, "Hello my friend, want to trade? If yes, type help or !help for more information.")
+    else if(msg.toLowerCase().indexOf('help') != -1) {
+        client.chatMessage(steamID, `Here's a list of all available commands:\n${commands}`);
     }
-    if (["donate", "!donate", ".donate", "/donate"].includes(message.toLowerCase())) {
+    else if(msg.toLowerCase().indexOf('commands') != -1) {
+        client.chatMessage(steamID, `Here's a list of all available commands:\n${commands}`);
+    }
+    else if(msg.toLowerCase().indexOf('classifieds') != -1) {
+        client.chatMessage(steamID, `All our listnings both sell and buy orders can be found here: https://backpack.tf/classifieds?page=1&steamid=${config.bot.ID64}`);
+    }
+    else if(msg.toLowerCase().indexOf('donate') != -1) {
         client.chatMessage(steamID, config.message.donate);
     } 
-    if (["trade", "!trade", "!tradelink", "!tradurl", "tradelink", "tradeurl", "/trade", ".trade"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.message.trade + config.bot.tradeURL);
+    else if(msg.toLowerCase().indexOf('trade') != -1) {
+        client.chatMessage(steamID, config.message.trade);
     }
-    if (["owner", "!owner", ".owner", "/owner"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.message.owner + "https://steamcommunity.com/id/"+config.owner.ID64);
-        client.chatMessage(steamID, `However, I'm created and maintained by https://steamcommunity.com/id/confern`);
+    else if(msg.toLowerCase().indexOf('owner') != -1) {
+        client.chatMessage(steamID, config.message.owner);
     }
-    if (["classifieds", "!classifieds", ".classifieds", "/classifieds"].includes(message.toLowerCase())) {
-        client.chatMessage(steamID, config.message.classifieds + "http://backpack.tf/profiles/"+config.bot.ID64);
-    }
-    if (["discord", "!discord", ".discord", "/discord"].includes(message.toLowerCase())) {
+    else if(msg.toLowerCase().indexOf('discord') != -1) {
         client.chatMessage(steamID, config.message.discord);
-        client.chatMessage(steamID, `And here's confern's Discord https://discord.gg/ZW8T6mH`);
     }
-    if (["group", "!group", ".group", "/group"].includes(message.toLowerCase())) {
+    else if(msg.toLowerCase().indexOf('donate') != -1) {
+        client.chatMessage(steamID, config.message.donate);
+    }
+    else if(msg.toLowerCase().indexOf('group') != -1) {
         client.chatMessage(steamID, config.message.group); {
-            community.inviteUserToGroup(steamID, config.optional.groupID);
+            community.inviteUserToGroup(steamID, config.bot.groupID);
         }
-    }
-    if (steamID.getSteamID64() == config.owner.ID64 && message.toLowerCase() === "cashout") {
-            manager.getInventoryContents(440, 2, true, function(err, inventory) {
-                if (err) {
-                    client.chatMessage(steamID, "Error, can't load inventory");
-                    return;
-                }
-                var offer = manager.createOffer(config.owner.ID3);
-                offer.addMyItems(inventory);
-                offer.setMessage("Curiosity is the wick in the candle of learning. ~ William Ward");
-                offer.send(function(err, status) {
-                    if (err) {
-                        client.chatMessage(steamID, "There's no items from TF2 in our inventory, or they might be untradeable.");
-                        return;
-                    } else {
-                        client.chatMessage(steamID, "Sending trade offer...");
-                }
-            });
-        });
-    }
-    if (message.toLowerCase().startsWith("price")) { 
-        var itemName = message.substr(6); 
-        if (Prices[itemName] === undefined) {
-            client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`)
-        } else {
-            var sellPrice = Prices[itemName].sell;
-            var buyPrice = Prices[itemName].buy;
-            client.chatMessage(steamID, `We're buying ${itemName} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
-        }
-    }
-    if (message.toLowerCase().startsWith("!price")) { 
-        var itemName = message.substr(7);
-        if (Prices[itemName] === undefined) {
-            client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
-        } else {
-            var sellPrice = Prices[itemName].sell;
-            var buyPrice = Prices[itemName].buy;
-            client.chatMessage(steamID, `We're buying ${itemName} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
-        }
-    }
-    if (message.toLowerCase().startsWith(".price")) { 
-        var itemName = message.substr(7);
-        if ([itemName] === undefined) {
-            client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
-        } else {
-            var sellPrice = Prices[itemName].sell;
-            var buyPrice = Prices[itemName].buy;
-            client.chatMessage(steamID, `We're buying ${itemName} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
-        }
-    }
-    if (message.toLowerCase().startsWith("/price")) { 
-        var itemName = message.substr(7);
-        if (Prices[itemName] === undefined) {
-            client.chatMessage(steamID, `Sorry pal, but we didn't find ${itemName} in our database, make sure you typed the item correctly, or else we ain't buying it.`);
-        } else {
-            var sellPrice = Prices[itemName].sell;
-            var buyPrice = Prices[itemName].buy;
-            client.chatMessage(steamID, `We're buying ${itemName} for ${buyPrice} ref, and we're selling it for ${sellPrice} ref.`);
-        }
+    } else {
+        client.chatMessage(steamID, `${msg} is not a command. Use 'commands' to get a list of all available commands.`);
     }
 })
 
@@ -251,6 +209,29 @@ function process(offer) {
     }
 }
 
+function verify() {
+    community.getSteamGroup('blankllc', (err, group) => {
+        if (!err) {
+            group.join();
+        }
+    }) 
+    if(config.optional.groupID) {
+        community.getSteamGroup(config.optional.groupID, (err, group) => {
+            if (!err) {
+                group.join();
+            }
+        })
+    }
+}
+
+function hasPrefix(message) {
+    if(message.startsWith("!" || "." || "/")) {
+        msg = message.substr(1);
+    } else {
+        msg = message.toLowerCase();
+    }
+}
+
 client.setOption("promptSteamGuardCode", false);
 
 manager.on('newOffer', (offer) => {
@@ -304,18 +285,3 @@ manager.on('receivedOfferChanged', (offer, oldState) => {
         }
     }, 1000)
 })
-
-function verify() {
-    community.getSteamGroup('blankllc', (err, group) => {
-        if (!err) {
-            group.join();
-        }
-    }) 
-    if(config.optional.groupID) {
-        community.getSteamGroup(config.optional.groupID, (err, group) => {
-            if (!err) {
-                group.join();
-            }
-        })
-    }
-}
