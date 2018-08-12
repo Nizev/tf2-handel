@@ -14,7 +14,7 @@
 * You must have SharedSecret for the account you want to associate with the bot
 * IdentitySecret is highly recommended, but is not needed
 * Account name/username of the account (not nickname/alias)
-* Password for the account
+* The password of the account
 
 ### Setup, Installation and Configuration
 Follow [this guide](https://github.com/confernn/tf2bot/wiki) for a in-depth guide to get the bot up and running with desired settings
