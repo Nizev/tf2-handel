@@ -5,6 +5,7 @@
         "password": "PASSWORD",
         "sharedSecret": "SHAREDSECRET=",
         "identitySecret": "IDENTITYSECRET=",
+        "groupID": 103582791440562795,
         "ID64": 12312312312312312,
         "tradeURL": "https://steamcommunity.com/tradeoffer/new/?partner=111111111&token=A1AaaAAA"
     },
@@ -21,7 +22,6 @@
 
     "optional": {
         "game": "TF2-BOT",
-        "groupID": 103582791440562795,
         "allowAdmin": false,
         "leaveComment": true,
         "manualDecline": true,
