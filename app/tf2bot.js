@@ -234,9 +234,7 @@ function hasPrefix(message) {
 
 client.setOption("promptSteamGuardCode", false);
 
-manager.on('newOffer', (offer) => {
-    process(offer);
-});
+manager.on('newOffer', process);
 
 manager.on('receivedOfferChanged', (offer, oldState) => {
     setTimeout(() => {
