@@ -8,7 +8,13 @@
 
 
 ## Features
-* To be added soon
+* help, price, group, owner, donate, discord and classifeids commands
+* Commands can both be used with "!", "/", "." as prefix or none
+* Bot automatically accepts offer if it's above or equal to the price listed in file
+* Bot checks if user has Escrow, declines if true
+* Bot notifies user when accepting, declineing and when the trade has gone trough
+* Option to automatically leave comment if trade has gone trough
+* Prices in ref
 
 ### Requirements
 * You must have SharedSecret for the account you want to associate with the bot
