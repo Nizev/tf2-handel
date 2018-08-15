@@ -17,7 +17,6 @@
 
     "optional": {
         "game": "TF2-BOT",
-        "allowAdmin": false,
         "leaveComment": true,
         "manualDecline": true,
         "comment": "+REP Thanks for using my trading service!"
