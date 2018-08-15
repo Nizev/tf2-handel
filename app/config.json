@@ -16,7 +16,7 @@
     },
 
     "optional": {
-        "game": "TF2-BOT",
+        "game": "tf2-artis",
         "leaveComment": true,
         "manualDecline": true,
         "comment": "+REP Thanks for using my trading service!"
