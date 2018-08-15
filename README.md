@@ -1,11 +1,13 @@
-# tf2-bot
-![Version](https://img.shields.io/github/package-json/v/confernn/tf2-bot.svg)
-[![License](https://img.shields.io/github/license/confernn/tf2-bot.svg)](https://github.com/confernn/auto-accept-donations/blob/master/LICENSE)
-[![Stars](https://img.shields.io/github/stars/confernn/tf2-bot.svg)](https://github.com/confernn/tf2-bot/stargazers)
-[![Issues](https://img.shields.io/github/issues/confernn/tf2-bot.svg)](https://github.com/confernn/tf2-bot/issues)
+# tf2-artis
+![Version](https://img.shields.io/github/package-json/v/confernn/tf2-artis.svg)
+[![License](https://img.shields.io/github/license/confernn/tf2-artis.svg)](https://github.com/confernn/tf2-artis/blob/master/LICENSE)
+[![Stars](https://img.shields.io/github/stars/confernn/tf2-artis.svg)](https://github.com/confernn/tf2-artis/stargazers)
+[![Issues](https://img.shields.io/github/issues/confernn/tf2-artis.svg)](https://github.com/confernn/tf2-artis/issues)
 [![Discord](https://img.shields.io/discord/467040686982692865.svg)](https://discord.gg/t8nHSvA)
-### OOPS! PLEASE READ [THIS](https://github.com/confernn/tf2-bot/blob/master/IMPORTANT.md) BEFORE READING ANY FURTHER.
+### OOPS. PLEASE READ [THIS](https://github.com/confernn/tf2-artis/blob/master/IMPORTANT.md) BEFORE READING ANY FURTHER.
 
+## What is tf2-artis?
+TF2 Artis is a free bot script created for automatically trading virtual items in the game Team Fortress 2.   
 
 ## Features
 * help, price, group, owner, donate, discord and classifeids commands
@@ -14,7 +16,7 @@
 * Bot checks if user has Escrow, declines if true
 * Bot notifies user when accepting, declineing and when the trade has gone trough
 * Option to automatically leave comment if trade has gone trough
-* Prices in ref
+* Priced in ref
 
 ### Requirements
 * You must have SharedSecret for the account you want to associate with the bot
