@@ -122,9 +122,8 @@ function accept(offer, steamID, message) {
     offer.accept((err) => {
         if(err) console.log(err);
         community.checkConfirmations(); {
-            console.log("  Trying to accept incoming offer"); {
-                client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.accept);
-            }
+            console.log("  Trying to accept incoming offer");
+            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.accept);
         }
     });
 }
@@ -133,20 +132,18 @@ function accept(offer, steamID, message) {
 function decline(offer, steamID, message) {
     offer.decline((err) => {
         if(err) console.log(err);
-        console.log("  Trying to decline incoming offer"); {
-            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.decline);
-            client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
-        }
+        console.log("  Trying to decline incoming offer");
+        client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.decline);
+        client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
     });
 }
 
 // Escrow offer, decline
 function escrow(offer, steamID, message) {
     offer.decline((err) => {
-        console.log("  Trying to decline offer sent by Escrow user"); {
-            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.escrow);
-            client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
-        }
+        console.log("  Trying to decline offer sent by Escrow user");
+        client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.escrow);
+        client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
     });
 }
 
@@ -191,15 +188,15 @@ function process(offer) {
             if (err) {
                 throw err;
             }
-            if (them.escrowDays > 0) {
-                escrow(offer);
-            } 
-            if(offer.itemsToGive.length === 0 && offer.itemsToReceive.length > 0) {
+            else if(offer.itemsToGive.length == 0 && offer.itemsToReceive.length > 0) {
                 offer.accept((err) => {
                     if(err) console.log(err);
                     console.log(`   Trying to accept incoming donation.`);
                     client.chatMessage(offer.partner.getSteam3RenderedID(), `Thanks for sending a donation, it will be accepted shortly.`)
                 })
+            }
+            else if (them.escrowDays > 0) {
+                escrow(offer);
             } else {
                 accept(offer); 
             }
