@@ -1,1 +1,1 @@
-require('./app/tf2bot.js');
+require('./app/artis.js');
