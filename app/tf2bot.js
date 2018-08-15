@@ -4,6 +4,7 @@ const SteamUser = require('steam-user');
 const SteamTotp = require('steam-totp');
 const colors = require('colors');
 
+const package = require('./../package.json');
 const Prices = require('./prices.json');
 const config = require('./config.json');
 
@@ -46,7 +47,8 @@ client.on('loggedOn', (details, parental) => {
     client.getPersonas([client.steamID], (personas) => {
         console.log(" Logged in as " + personas[client.steamID].player_name);
         client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade, config.bot.name);
-        client.gamesPlayed([config.optional.game]);
+        if (config.optional.game > 0) {client.gamesPlayed([package.name, config.optional.game])}
+        else {client.gamesPlayed([package.name])}
     });
 });
 
