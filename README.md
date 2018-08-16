@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/confernn/tf2-artis.svg)](https://github.com/confernn/tf2-artis/stargazers)
 [![Issues](https://img.shields.io/github/issues/confernn/tf2-artis.svg)](https://github.com/confernn/tf2-artis/issues)
 [![Discord](https://img.shields.io/discord/467040686982692865.svg)](https://discord.gg/t8nHSvA)
-### OOPS. PLEASE READ [THIS](https://github.com/confernn/tf2-artis/blob/master/IMPORTANT.md) BEFORE READING ANY FURTHER.
+##### OOPS. PLEASE READ [THIS](https://github.com/confernn/tf2-artis/blob/master/IMPORTANT.md) BEFORE READING ANY FURTHER.
 
 ## What is tf2-artis?
 TF2 Artis is a free bot script created for automatically trading virtual items in the game Team Fortress 2.   
