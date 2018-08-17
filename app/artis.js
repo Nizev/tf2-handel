@@ -231,6 +231,21 @@ function hasPrefix(message) {
     }
 }
 
+function log(info) {
+    if(info == 'trade') {
+        return 
+    }
+    if(info == 'info') {
+        return
+    }
+    if(info == 'warn') {
+        return 
+    }
+    if(info == 'err') {
+        return 
+    }
+}
+
 client.setOption("promptSteamGuardCode", false);
 
 manager.on('newOffer', process);
