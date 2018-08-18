@@ -232,6 +232,7 @@ function hasPrefix(message) {
 }
 
 function log(info) {
+    var default = 
     if(info == 'trade') {
         return 
     }
