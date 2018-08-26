@@ -1,6 +1,6 @@
 {
     "name": "tf2-bot",
-    "version": "0.0.1",
+    "version": "0.0.10",
     "description": "tf2 trading bot",
     "main": "index.js",
     "dependencies": {
