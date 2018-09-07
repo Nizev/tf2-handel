@@ -21,8 +21,8 @@ TF2 Artis is a free bot script created for automatically trading virtual items i
 * Commands: help, price, group, owner, donate, discord, commands and classifieds
 
 ### Requirements
-* You must have SharedSecret for the account you want to associate with the bot
-* IdentitySecret is highly recommended, but is not needed
+* You must have IdentitySecret for the account you want to associate with the bot
+* SharedSecret is highly recommended, but is not needed
 * Account name/username of the account (not nickname/alias)
 * The password of the account
 
