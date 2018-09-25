@@ -55,7 +55,6 @@ client.on('loggedOn', (details, parental) => {
 client.on('webSession', (sessionid, cookies) => {
     manager.setCookies(cookies);
     community.setCookies(cookies);
-    community.startConfirmationChecker(10000, config.bot.identitySecret);
 });
 
 const commands = [
