@@ -11,7 +11,7 @@ TF2 Artis is a free bot script created for automatically trading virtual items i
 
 ## Features
 * help, price, group, owner, donate, discord and classifeids commands
-* Commands works idenependent of where it's placed in the message E.G. "What's your discord?" the bot will respond the discord command (does not work for the message and price command)
+* Commands works independent of where it's placed in the message E.G. "What's your discord?" the bot will respond with the discord command (does not work for the message and price command)
 * Commands can both be used with "!", "/", "." as prefix or none
 * Bot automatically accepts offer if it's above or equal to the price listed in file
 * Bot checks if user has Escrow, declines if true
