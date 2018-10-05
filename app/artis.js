@@ -8,6 +8,8 @@ const package = require('./../package.json');
 const Prices = require('./prices.json');
 const config = require('./config.json');
 
+const print = console.log;
+
 const client = new SteamUser();
 const community = new SteamCommunity();
 const manager = new TradeOfferManager({
@@ -17,6 +19,7 @@ const manager = new TradeOfferManager({
 });
 
 let msg;
+let info;
 
 const logOnOptions = {
     accountName: config.bot.username,
@@ -26,29 +29,29 @@ const logOnOptions = {
 
 client.logOn(logOnOptions);
 
-client.on('friendRelationship', (steamID, relationship, groupID) => {
-    if (relationship === 2) {
+client.on('friendRelationship', (steamID, relationship) => {
+    if(relationship == 2)
         client.addFriend(steamID); {
-            if(config.optional.inviteToGroup != false) {
-                community.inviteUserToGroup(steamID, config.optional.groupID); {
-                    client.getPersonas([steamID], function(personas) {
-                        var persona = personas[steamID.getSteamID64()];
-                        var name = persona ? persona.player_name : (`['${steamID.getSteamID64()}']`); {              
-                            client.chatMessage(steamID, `Salut ${name}, I hope you're having a wonderful day or night so far. Type help to get started.`);
-                        }
-                    })
-                }
-            }
-        }           
+            if(config.optional.inviteToGroup) 
+                community.inviteUserToGroup(steamID, config.optional.groupID);
+                client.getPersonas([steamID], (personas) => {
+                    var persona = personas[steamID.getSteamID64()];
+                    var name = persona ? persona.player_name : (`['${steamID.getSteamID64()}']`);
+                    client.chatMessage(steamID, `Salut ${name}, I hope you're having a wonderful day or night so far. Type help to get started.`);
+        });
     }
 });
+        
 
 client.on('loggedOn', (details, parental) => {
     client.getPersonas([client.steamID], (personas) => {
-        console.log(" Logged in as " + personas[client.steamID].player_name);
+        info = 'info';
+        print(log(info)+`${log(info)} Logged in as ${personas[client.steamID].player_name}`);
         client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade, config.bot.name);
-        if (config.optional.game > 0) {client.gamesPlayed([package.name, config.optional.game])}
-        else {client.gamesPlayed([package.name])}
+        if (config.optional.game) 
+            client.gamesPlayed([package.name, config.optional.game])
+        else 
+            client.gamesPlayed([package.name])
     });
 });
 
@@ -86,31 +89,31 @@ client.on("friendMessage", (steamID, message) => {
             client.chatMessage(steamID, `However you can find our backpack.tf classifieds by typing 'classifieds' or 'listnings.'`);
         }
     }
-    else if(msg.toLowerCase().indexOf('help') != -1) {
+    else if(msg.toLowerCase().indexOf('help') > -1) {
         client.chatMessage(steamID, `Here's a list of all available commands:\n${commands}`);
     }
-    else if(msg.toLowerCase().indexOf('commands') != -1) {
+    else if(msg.toLowerCase().indexOf('commands') > -1) {
         client.chatMessage(steamID, `Here's a list of all available commands:\n${commands}`);
     }
-    else if(msg.toLowerCase().indexOf('classifieds') != -1) {
+    else if(msg.toLowerCase().indexOf('classifieds') > -1) {
         client.chatMessage(steamID, `All our listnings both sell and buy orders can be found here: https://backpack.tf/classifieds?page=1&steamid=${config.bot.ID64}`);
     }
-    else if(msg.toLowerCase().indexOf('donate') != -1) {
+    else if(msg.toLowerCase().indexOf('donate') > -1) {
         client.chatMessage(steamID, config.message.donate);
     } 
-    else if(msg.toLowerCase().indexOf('trade') != -1) {
+    else if(msg.toLowerCase().indexOf('trade') > -1) {
         client.chatMessage(steamID, config.message.trade);
     }
-    else if(msg.toLowerCase().indexOf('owner') != -1) {
+    else if(msg.toLowerCase().indexOf('owner') > -1) {
         client.chatMessage(steamID, config.message.owner);
     }
-    else if(msg.toLowerCase().indexOf('discord') != -1) {
+    else if(msg.toLowerCase().indexOf('discord') > -1) {
         client.chatMessage(steamID, config.message.discord);
     }
-    else if(msg.toLowerCase().indexOf('donate') != -1) {
+    else if(msg.toLowerCase().indexOf('donate') > -1) {
         client.chatMessage(steamID, config.message.donate);
     }
-    else if(msg.toLowerCase().indexOf('group') != -1) {
+    else if(msg.toLowerCase().indexOf('group') > -1) {
         client.chatMessage(steamID, config.message.group); {
             community.inviteUserToGroup(steamID, config.bot.groupID);
         }
@@ -119,30 +122,30 @@ client.on("friendMessage", (steamID, message) => {
     }
 })
 
-function accept(offer, steamID, message) {
+function accept(offer) {
     offer.accept((err) => {
-        if(err) console.log(err);
+        if(err) print(log(info)+err);
         community.checkConfirmations(); {
-            console.log("  Trying to accept incoming offer");
+            print(log(info)+"  Trying to accept incoming offer");
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.accept);
         }
     });
 }
 
 // This function will decline offers.
-function decline(offer, steamID, message) {
+function decline(offer) {
     offer.decline((err) => {
-        if(err) console.log(err);
-        console.log("  Trying to decline incoming offer");
+        if(err) print(log(info)+err);
+        print(log(info)+"  Trying to decline incoming offer");
         client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.decline);
         client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
     });
 }
 
 // Escrow offer, decline
-function escrow(offer, steamID, message) {
+function escrow(offer) {
     offer.decline((err) => {
-        console.log("  Trying to decline offer sent by Escrow user");
+        print(log(info)+"  Trying to decline offer sent by Escrow user");
         client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.escrow);
         client.setPersona(SteamUser.Steam.EPersonaState.LookingToTrade);
     });
@@ -150,39 +153,34 @@ function escrow(offer, steamID, message) {
 
 // This function process the trade offer
 function process(offer) {
+    client.setPersona(SteamUser.Steam.EPersonaState.Busy);
+
     var ourItems = offer.itemsToGive;
     var theirItems = offer.itemsToReceive;
     let ourValue = 0;
     let theirValue = 0;
 
-    ourValue = Math.round(ourValue * 9)
-    theirValue = Math.round(theirValue * 9);
-
-    client.setPersona(SteamUser.Steam.EPersonaState.Busy);
-    if (offer.isGlitched() || offer.state === 11) {
+    if(offer.isGlitched() || offer.state == 11)
         decline(offer);
-    }
-    else if(offer.partner.getSteamID64() == config.owner.ID64) {
-        accept(offer);
-    } else {
-        for (var i in ourItems) {
-            var item = ourItems[i].market_name;
-            if(Prices[item]) {
-                ourValue += Math.round(Prices[item].sell * 9);
-            } else {
-                ourValue += Math.pow(2, 50);
-            }
-        }
-        for(var i in theirItems) {
-            var item = theirItems[i].market_name;
-            if(Prices[item]) {
-                theirValue += Math.round(Prices[item].buy * 9);
-            }
-        }    
-    }
 
-    console.log(`  Their value: ${Math.floor(theirValue / 9 * 100) / 100} ref`); 
-    console.log(`  They want: ${Math.floor(ourValue / 9 * 100) / 100} ref`); 
+    else if(offer.partner.getSteamID64() == config.owner.ID64) 
+        accept(offer);
+    
+    else
+        for (var i in ourItems)
+            var item = ourItems[i].market_name;
+            if(Prices[item]) 
+                ourValue += Math.ceil(Prices[item].sell * 9);
+            else 
+                ourValue += Math.pow(2, 50);
+                
+        for(var i in theirItems) 
+            var item = theirItems[i].market_name;
+            if(Prices[item]) 
+                theirValue += Math.ceil(Prices[item].buy * 9);
+
+    print(`${log(info)} Their value: ${Math.floor(theirValue / 9 * 100) / 100} ref`); 
+    print(`${log(info)} They want: ${Math.floor(ourValue / 9 * 100) / 100} ref`); 
 
     if (ourValue <= theirValue) {
         offer.getUserDetails(function(err, them) {
@@ -191,8 +189,8 @@ function process(offer) {
             }
             else if(offer.itemsToGive.length == 0 && offer.itemsToReceive.length > 0) {
                 offer.accept((err) => {
-                    if(err) console.log(err);
-                    console.log(`   Trying to accept incoming donation.`);
+                    if(err) print(log(info)+err);
+                    print(log(info)+`   Trying to accept incoming donation.`);
                     client.chatMessage(offer.partner.getSteam3RenderedID(), `Thanks for sending a donation, it will be accepted shortly.`)
                 })
             }
@@ -209,41 +207,26 @@ function process(offer) {
 
 function verify() {
     community.getSteamGroup('blankllc', (err, group) => {
-        if (!err) {
+        if(!err)
             group.join();
-        }
     }) 
-    if(config.optional.groupID) {
+    if(config.optional.groupID)
         community.getSteamGroup(config.optional.groupID, (err, group) => {
-            if (!err) {
+            if(!err)
                 group.join();
-            }
-        })
-    }
+    })
 }
 
 function hasPrefix(message) {
-    if(message.startsWith("!" || "." || "/")) {
+    if(message.startsWith("!" || "." || "/")) 
         msg = message.substr(1);
-    } else {
+    else 
         msg = message.toLowerCase();
-    }
 }
 
 function log(info) {
-    var default = 
-    if(info == 'trade') {
-        return 
-    }
-    if(info == 'info') {
-        return
-    }
-    if(info == 'warn') {
-        return 
-    }
-    if(info == 'err') {
-        return 
-    }
+    return `${package.name} | `.green + `${moment().format('LTS')} `+
+    `${info == "info" ? info.green : ""+info == "trade" ? info.magenta : ""+info == "warn" ? info.yellow : ""}:`
 }
 
 client.setOption("promptSteamGuardCode", false);
@@ -253,11 +236,11 @@ manager.on('newOffer', process);
 manager.on('receivedOfferChanged', (offer, oldState) => {
     setTimeout(() => {
         if(offer.state === TradeOfferManager.ETradeOfferState.Accepted) {
-            console.log(`   Incoming offer went through successfully.`);
+            print(log(info)+`   Incoming offer went through successfully.`);
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.optional.offerChanged.accept);
-            if(config.optional.leaveComment != false) {
+            if(config.optional.leaveComment) {
                 if (offer.partner.getSteam3RenderedID() == config.owner.ID3) {
-                    console.log(`  Offer partner is owner, not leaving comment`)
+                    print(log(info)+`  Offer partner is owner, not leaving comment`)
                     return;
                 } else { 
                     if(config.optional.comment) {
@@ -267,33 +250,33 @@ manager.on('receivedOfferChanged', (offer, oldState) => {
             }
         }
         if(offer.state === TradeOfferManager.ETradeOfferState.Declined) {
-            console.log(`   You declined your incoming offer.`);
+            print(log(info)+`   You declined your incoming offer.`);
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.decline)
         }
         if(offer.state === TradeOfferManager.ETradeOfferState.Canceled) {
-            console.log(`   Incoming offer was canceled by sender.`);
+            print(log(info)+`   Incoming offer was canceled by sender.`);
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.canceled);
         }
         if(offer.state === TradeOfferManager.ETradeOfferState.Invalid) {
-            console.log(`   Incoming offer is now invalid.`);
+            print(log(info)+`   Incoming offer is now invalid.`);
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.invalid);
         }
         if(offer.state === TradeOfferManager.ETradeOfferState.InvalidItems) {
-            console.log(`   Incoming offer now contains invalid items.`);
+            print(log(info)+`   Incoming offer now contains invalid items.`);
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.invalidItems);
         }
         if(offer.state === TradeOfferManager.ETradeOfferState.Expired) {
-            console.log(`   Incoming offer expired.`);
+            print(log(info)+`   Incoming offer expired.`);
             client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerChanged.expired);
         }
         if(offer.state === TradeOfferManager.ETradeOfferState.InEscrow) {
-            console.log(`   Incoming offer is now in escrow, you will most likely receive your item(s) in some days if no further action is taken.`);
+            print(log(info)+`   Incoming offer is now in escrow, you will most likely receive your item(s) in some days if no further action is taken.`);
         }
         if(offer.state === TradeOfferManager.ETradeOfferState.Active) {
             if(offer.partner.getSteamID64() == config.owner.ID64) {
                 client.chatMessage(offer.partner.getSteam3RenderedID(), `Your cashout offer is now active, click 'View trade offer' above to accept it!`);
             }
-            console.log(`   Sent offer is now active.`);
+            print(log(info)+`   Sent offer is now active.`);
         }
     }, 1000)
 })
