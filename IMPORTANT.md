@@ -2,7 +2,7 @@
 #### I can't afford to give out a script with a lot of features and ideas which is not given out yet by anyone else for free. 
 ##### I therefore have another script on the way which will have a lot of new and enhanced features, but has a monthly fee.
 
-### Known non-existence features of this bot
+### Known non-existing features of this bot
 * This bot has no stock limit
 * This bot does not detect SteamREP-banned users
 * This bot does not see the difference between Craftable and Non-Craftable
