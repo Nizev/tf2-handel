@@ -7,7 +7,7 @@
 * This bot does not detect SteamREP-banned users
 * This bot does not see the difference between Craftable and Non-Craftable
 * This bot does not detect if an item is from TF2 (it only uses the name of the item, vulnerable to the new scam going around)
-* This bot does not detect Unusual, Sheens, Paints or any other value defined in the description of the item
+* This bot does not detect Unusual, Sheens, Paints or any other value defined in the description nor the tags of the item
 
 #### Possible features of a paid bot
 * More accurate checking of values when processing trade
