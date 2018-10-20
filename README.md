@@ -1,10 +1,10 @@
 # tf2-handel
-![Version](https://img.shields.io/github/package-json/v/confernn/tf2-artis.svg)
-[![License](https://img.shields.io/github/license/confernn/tf2-artis.svg)](https://github.com/confernn/tf2-artis/blob/master/LICENSE)
-[![Stars](https://img.shields.io/github/stars/confernn/tf2-artis.svg)](https://github.com/confernn/tf2-artis/stargazers)
-[![Issues](https://img.shields.io/github/issues/confernn/tf2-artis.svg)](https://github.com/confernn/tf2-artis/issues)
+![Version](https://img.shields.io/github/package-json/v/confernn/tf2-handel.svg)
+[![License](https://img.shields.io/github/license/confernn/tf2-handel.svg)](https://github.com/confernn/tf2-handel/blob/master/LICENSE)
+[![Stars](https://img.shields.io/github/stars/confernn/tf2-handel.svg)](https://github.com/confernn/tf2-handel/stargazers)
+[![Issues](https://img.shields.io/github/issues/confernn/tf2-handel.svg)](https://github.com/confernn/tf2-handel/issues)
 [![Discord](https://img.shields.io/discord/467040686982692865.svg)](https://discord.gg/t8nHSvA)
-##### OOPS. PLEASE READ [THIS](https://github.com/confernn/tf2-artis/blob/master/IMPORTANT.md) BEFORE READING ANY FURTHER.
+##### OOPS. PLEASE READ [THIS](https://github.com/confernn/tf2-handel/blob/master/IMPORTANT.md) BEFORE READING ANY FURTHER.
 
 ## What is tf2-handel?
 TF2 Artis is a free bot script created for automatically trading virtual items in the game Team Fortress 2. What does 'handel' mean? 'Handel' is the norwegian word for trade.  
