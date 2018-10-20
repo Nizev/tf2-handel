@@ -2,6 +2,7 @@ const TradeOfferManager = require('steam-tradeoffer-manager');
 const SteamCommunity = require('steamcommunity');
 const SteamUser = require('steam-user');
 const SteamTotp = require('steam-totp');
+const moment = require('moment');
 const colors = require('colors');
 
 const package = require('./../package.json');
@@ -268,10 +269,11 @@ function checkUpdate() {
         url: 'https://raw.githubusercontent.com/confernn/tf2-handel/master/package.json',
         method: 'GET',
     };
-    function look() {
-        var body = JSON.parse(body)
-        if(body.version != package.version)
-            print(`${log('warn')} ${'New update available for '+package.name+ '(v'+body.version+')! You\'re currently only running version '+package.version+'\nGo to http://github.com/confernn/tf2-handel to update now!'}`)
+    function look(error, JSONresponse, body) {
+        var page = JSON.parse(body)
+        print(page);
+        if(page.version != package.version)
+            print(`${log('warn')} ${'New update available for '+package.name+ ' v'+page.version+'! You\'re currently only running version '+package.version+'\n                               Go to http://github.com/confernn/tf2-handel to update now!'}`)
     }
     request(options, look)
 }
