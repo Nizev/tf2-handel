@@ -11,23 +11,24 @@
     },
 
     "owner": {
-        "ID64": 76561198253325712,
-        "ID3": "[U:1:293059984]"
+        "ID64": 76561198253325712
     },
 
     "optional": {
-        "game": "tf2-artis",
+        "game": ["tf2-handel", 440],
         "leaveComment": true,
         "manualDecline": true,
         "comment": "+REP Thanks for using my trading service!"
     },
 
     "message": {
-        "donate": "Oh you want to donate? How nice of you! You can send a donation by clicking this link: ",
-        "trade": "You can send an offer here: ",
-        "owner": "My owner is ",
+        "welcome": "Salut [name], I hope you're having a wonderful day or night so far. Type help to get started.",
+        "donate": "Oh you want to donate? How nice of you! You can send a donation by clicking this link: [tradeurl]",
+        "trade": "You can send an offer here: [tradeurl]",
+        "owner": "My owner is [owner]",
         "group": "Invitation to my group has been sent",
         "discord": "You can join my Discord here: ",
+        "classifieds": "All our listnings both sell and buy orders can be found here: [bptflink]",
         
         "offerNotChanged": {
             "donation": "Thanks! I've received your donation and I'm trying to accept it. You will be notified when it has gone through.",
