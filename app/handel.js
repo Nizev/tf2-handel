@@ -35,7 +35,7 @@ const settings = {
 
 TF2Api();
 
-//client.logOn(settings);
+client.logOn(settings);
 
 client.on('friendRelationship', (steamID, relationship) => {
     if(relationship == 2)
