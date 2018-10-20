@@ -8,7 +8,8 @@
       "steam-tradeoffer-manager": "^2.9.4",
       "steam-user": "^3.28.2",
       "steamcommunity": "^3.37.1",
-      "colors": "^1.3.2"
+      "colors": "^1.3.2",
+      "moment": "^2.22.2"
     },
     "author": {
       "name": "confern",
