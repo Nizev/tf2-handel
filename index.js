@@ -1,1 +1,1 @@
-require('./app/artis.js');
+require('./app/handel.js');
