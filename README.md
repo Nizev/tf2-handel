@@ -7,7 +7,7 @@
 ##### OOPS. PLEASE READ [THIS](https://github.com/confernn/tf2-handel/blob/master/IMPORTANT.md) BEFORE READING ANY FURTHER.
 
 ## What is tf2-handel?
-TF2 Handel is a free bot script created for automatically trading virtual items in the game Team Fortress 2. What does 'handel' mean? 'Handel' is  norwegian for 'trade'. 
+TF2 Handel is a free bot script created for automatically trading virtual items in the game Team Fortress 2. What does 'handel' mean? 'Handel' is  norwegian for 'trade'. This bot is still being updated, so you may encounter bugs or errors. If you do so however, please create an issue [here](https://github.com/confernn/tf2-handel/issues).
 
 ## Features
 * help, price, group, owner, donate, discord and classifieds commands
