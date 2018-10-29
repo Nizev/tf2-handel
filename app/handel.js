@@ -132,11 +132,12 @@ client.on("friendMessage", (steamID, message) => {
 
 function accept(offer) {
     offer.accept((err) => {
-        if(err) print(log(info)+err);
-        community.checkConfirmations(); {
-            print(`${log('trade')}  Trying to accept incoming offer`);
-            client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.accept);
+        if(err) print(`${log('err')} ${err}`);
+        if(offer.itemsToGive.length > 0) {
+            community.checkConfirmations();
         }
+        print(`${log('trade')}  Trying to accept incoming offer`);
+        client.chatMessage(offer.partner.getSteam3RenderedID(), config.message.offerNotChanged.accept);
     });
 }
 
@@ -217,6 +218,54 @@ function process(offer) {
     }
 }
 
+function isCraftable(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function isCraftWeapon(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function isUnusual(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function getEffect(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function isSkin(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function getSkin(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function getWear(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function getLevel(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function getEffect(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function isPainted(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function isTradingCard(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
+function getGemAmount(item) {
+    // Might introduced in a later update, still unsure if I should add it.
+}
+
 function verify() {
     community.getSteamGroup('blankllc', (err, group) => {
         if(!err)
@@ -245,6 +294,9 @@ function TF2Api() {
             if(page.IEconItems["440"].error != "No Error") {
                 apiDown = true;
                 print(`${log('warn')} TF2's API is currently down. ${page.IEconItems["440"].error}. Checking API every 5 minutes.`)
+            } else {
+                apiDown = false;
+                print(`${log('info')} TF2's Api is up and running. ${page.IEconItems["440"].error}.`)
             }
         }
         request(options, test) 
@@ -252,10 +304,8 @@ function TF2Api() {
 }
 
 function hasPrefix(message) {
-    if(message.startsWith("!" || "." || "/")) 
+    if(message.startsWith("!" || "." || "/" || "$" || "?")) 
         msg = message.substr(1);
-    else 
-        msg = message.toLowerCase();
 }
 
 function log(info) {
